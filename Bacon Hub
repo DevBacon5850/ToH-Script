@@ -1,0 +1,147 @@
+local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()
+local Window = Library.CreateLib("Bacon Hub", "DarkTheme")
+--- Main
+local Tab = Window:NewTab("Main")
+local Section = Tab:NewSection("Main")
+Section:NewButton("God Mode", "Click To Turn On God Mode", function()
+    -- God mode
+    
+    function f()
+        game.Players.LocalPlayer.Character.KillScript:Destroy()
+     end
+     hookfunction(f, function()
+        game.Players.LocalPlayer.Character.KillScript:Destroy()
+     end)
+     
+     f()
+    end)
+    Section:NewButton("CTRL + Click To Teleport", "CTRL + Click To Teleport", function()
+        local Plr = game:GetService("Players").LocalPlayer
+        local Mouse = Plr:GetMouse()
+        
+        Mouse.Button1Down:connect(function()
+        if not game:GetService("UserInputService"):IsKeyDown(Enum.KeyCode.LeftControl) then return end
+        if not Mouse.Target then return end
+        Plr.Character:MoveTo(Mouse.Hit.p)
+        end)
+    end)
+    Section:NewButton("Get All Gears", "Detectable", function()
+        --Give all gears
+        
+        for i, v in pairs (game:GetService("ReplicatedStorage").Gear:GetChildren()) do
+            if v:IsA("Tool") then
+            poop = v:Clone()
+            poop.Parent = game:GetService("Players").LocalPlayer:FindFirstChild("Backpack")
+            end
+            end
+        end)
+    Section:NewButton("Inf Jump", "Click To Inf Jump", function()
+        local Player = game:GetService'Players'.LocalPlayer;
+        local UIS = game:GetService'UserInputService';
+        
+        _G.JumpHeight = 50;
+            
+        function Action(Object, Function) if Object ~= nil then Function(Object); end end
+            
+        UIS.InputBegan:connect(function(UserInput)
+            if UserInput.UserInputType == Enum.UserInputType.Keyboard and UserInput.KeyCode == Enum.KeyCode.Space then
+                Action(Player.Character.Humanoid, function(self)
+                    if self:GetState() == Enum.HumanoidStateType.Jumping or self:GetState() == Enum.HumanoidStateType.Freefall then
+                        Action(self.Parent.HumanoidRootPart, function(self)
+                            self.Velocity = Vector3.new(0, _G.JumpHeight, 0);
+                        end)
+                    end
+                end)
+            end
+        end)
+    end)
+    Section:NewButton("Noclip (E)", "Press E To Noclip", function()
+        local StealthMode = true -- If game has an anticheat that checks the logs
+    
+        local Indicator
+        
+        if not StealthMode then
+            local ScreenGui = Instance.new("ScreenGui", game.CoreGui)
+            print("NOCLIP: Press E to Activate")
+            Indicator = Instance.new("TextLabel", ScreenGui)
+            Indicator.AnchorPoint = Vector2.new(0, 1)
+            Indicator.Position = UDim2.new(0, 0, 1, 0)
+            Indicator.Size = UDim2.new(0, 200, 0, 50)
+            Indicator.BackgroundTransparency = 1
+            Indicator.TextScaled = true
+            Indicator.TextStrokeTransparency = 0
+            Indicator.TextColor3 = Color3.new(0, 0, 0)
+            Indicator.TextStrokeColor3 = Color3.new(1, 1, 1)
+            Indicator.Text = "Noclip: Enabled"
+        end
+        
+        local noclip = false
+        local player = game.Players.LocalPlayer
+        local character = player.Character or player.CharacterAdded:Wait()
+        
+        local mouse = player:GetMouse()
+        
+        mouse.KeyDown:Connect(function(key)
+            if key == "e" then
+                noclip = not noclip
+        
+                if not StealthMode then
+                    Indicator.Text = "Noclip: " .. (noclip and "Enabled" or "Disabled")
+                end
+            end
+        end)
+        
+        while true do
+            player = game.Players.LocalPlayer
+            character = player.Character
+        
+            if noclip then
+                for _, v in pairs(character:GetDescendants()) do
+                    pcall(function()
+                        if v:IsA("BasePart") then
+                            v.CanCollide = false
+                        end
+                    end)
+                end
+            end
+        
+            game:GetService("RunService").Stepped:wait()
+        end
+    end)
+local Section = Tab:NewSection("Teleports")
+Section:NewButton("Teleport To Finish", "Click To Teleport To Finish", function()
+    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game.workspace.tower.sections.finish.exit.ParticleBrick.CFrame
+end)
+Section:NewButton("Teleport To Spawn", "Click To Teleport To Spawn", function()
+    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(14.8491163, -3.74930334, 14.8491163, 0.707068026, 0, -0.707145512, 0, 1, 0, 0.707145512, 0, 0.707068026)
+end)
+--- Misc
+local Tab = Window:NewTab("Misc")
+local Section = Tab:NewSection("Misc")
+Section:NewSlider("WalkSpeed", "Change Player's WalkSpeed", 500, 16, function(s)
+    game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = s
+end)
+Section:NewSlider("JumpPower", "Change Player's JumpPower", 500, 50, function(jp)
+    game.Players.LocalPlayer.Character.Humanoid.JumpPower = jp
+end)
+local Section = Tab:NewSection("Others")
+Section:NewButton("Remove Kick", "Click To Remove Kick", function()
+    loadstring(game:HttpGet("https://pastebin.com/raw/BMGbkQ71", true))()
+end)
+Section:NewKeybind("Hotkey", "Click Any Key To Hide GUI", Enum.KeyCode.F, function()
+	Library:ToggleUI()
+end)
+--- Credits
+local Tab = Window:NewTab("Credits")
+local Section = Tab:NewSection("Credits By Dev_Bacon")
+Section:NewButton("Discord - Bacon Hub", "Discord - Bacon Hub", function()
+    local b = Instance.new("BindableFunction")
+    function b.OnInvoke(response) if response == "Copy Link" then if setclipboard then setclipboard("https://discord.gg/WCES5ZtM") end end end
+    game:GetService("StarterGui"):SetCore("SendNotification", {Title = "Join discord server", Text = "Bacon Hub", Duration = 5, Callback = b, Button1 = "Copy Link"})
+end)
+local Section = Tab:NewSection("Youtube By Dev_Bacon")
+Section:NewButton("Youtube - Dev_Bacon", "Youtube - Dev_Bacon", function()
+    local b = Instance.new("BindableFunction")
+    function b.OnInvoke(response) if response == "Copy Link" then if setclipboard then setclipboard("https://www.youtube.com/channel/UCjuyjtQYk8lWeIfXoJmYzMA") end end end
+    game:GetService("StarterGui"):SetCore("SendNotification", {Title = "Subcribe To Dev_Bacon", Text = "Youtube - Dev Bacon", Duration = 5, Callback = b, Button1 = "Copy Link"})
+end)
